@@ -1,0 +1,28 @@
+
+
+#mainColumn1 {
+    text-align: center;
+    height: 100%;
+    padding-top: 20px;
+    border: black solid 2px;
+}
+
+#mainColumn2 {
+    text-align: center;
+    height: 100%;
+    padding-top: 20px;
+    border: black solid 2px;
+}
+
+#currentWord {
+   
+}
+
+.row.lettersGuessed {
+    background-color: black;
+}
+
+.guessSpace {
+    text-align: center;
+}
+
