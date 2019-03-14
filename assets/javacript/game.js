@@ -50,60 +50,46 @@ var lettersGuessed = [];
 //Create an where incorrect guesses will be pushed
 var wrongGuess = [];
 
-//create a function that checks the chosenWord with the eventKey (eventKey is defined as event.key when I define addKeyPressListener) 
-//If all indexes of chosenWord do not match eventKey, then add (or push) the eventKey to the wrongGuess array
-function updateWrongGuesses(eventKey) {
-    if(!containsChar(chosenWord, eventKey)) {
-        wrongGuess.push(eventKey + " ");
-    }
-};
+//Creat a variable to hold guesses remaining
+var guessCounter = 12; 
 
-//This function updates the current word by setting the inner HTML of id="currentWord" to the string built in buildWordDisplay
-function updateCurrentWord() {
-    document.getElementById("currentWord").innerHTML = buildWordDisplay(lettersGuessed, chosenWord);
+//create a function that checks the chosenWord with the eventKey (eventKey is defined as event.key when I define addKeyPressListener) 
+//If all indexes of chosenWord do not match eventKey, then add (or push) the eventKey to the wrongGuess array and decrease the counter by one
+
+function updateWrongGuessesAndCount(eventKey) {
+    if(!containsChar(chosenWord, eventKey) && containsChar(lettersGuessed, eventKey)) {
+        wrongGuess.push(eventKey + " ");
+        guessCounter -= 1;
+   }
 }
 
-//This function turns the wrongGuess array into a string, capitalizes it and puts them in the id="guessSpace"
-//NOTE: I CANNOT GET THE JOIN METHOD TO 
-function updateGuessedLetters() {
+
+
+//This function updates the screen by placing the generated string into the Word section, updating the Number Of Guesses Remaining with the var guessCounter
+//...and logging the guessed letters into your Already Guessed space
+function updateScreen() {
+    document.getElementById("currentWord").innerHTML = buildWordDisplay(lettersGuessed, chosenWord);
+    document.getElementById("guessesLeft").innerHTML = guessCounter;
     var guessInput = wrongGuess.toString();
     var guessInputCapital = guessInput.toUpperCase();
     document.getElementById("guessSpace").innerHTML = guessInputCapital;
-}
-
-//This function acts as a counter for the guesses remaining. The variable count starts at 12 and for everytime
-//...an index of chosen word doesn't match eventKey, it decreases the count by one. The variable eventKey is defined
-//...as event.key when the argument x is passed in line 117.
-
-// function guessesRemaining(eventKey) {
-//     var count = 12;
-//     if(!containsChar(chosenWord, eventKey)) {
-//         count -= 1;
-//     }
-//     return count;
-// }
-
+};
 
 //Create a function that saves the key pressed to a variable
-//Within the function, push the variable (x) to the array of lettersGuessed so that the 
-//...key pressed goes into the array to compare with the chosenWord
-
+//Within the function, push the variable (x) to the array of lettersGuessed so that the key pressed goes into the array to compare with the chosenWord
+//On key up, log the key pressed to letters guessed, run the updateWrongGuessesAndCount function to check the event key with the current word and update the screen
 function addKeyPressListener() {
     document.addEventListener("keyup", function logLetter() {
         var x = event.key;
         lettersGuessed.push(x);
-        updateWrongGuesses(x);
-        updateCurrentWord();
-        updateGuessedLetters();  
-        //guessesRemaining(x);
-
+        updateWrongGuessesAndCount(x);
+        updateScreen();
     })
 };
 
-//Make a function that compares lettersGuessed[x] with chosenWord[i]
-//Set this function up with a for loop the cycles through each index of array up to array.length
-//  if array[x] is equal to char, it returns a true value
-//  if array[x] is not eqaul to char, it returns a false value 
+//Make a function that compares the parameters of array and char
+//Loop through every index of array and check if it is equal to char
+//  if it is equal, return true         else, return false
 
 function containsChar(array, char) {
     for(x=0; x<array.length; x++) {    
@@ -135,11 +121,39 @@ function buildWordDisplay() {
 
 console.log(chosenWord);
 
+var buildWordOutput = buildWordDisplay();
+
+function determineWinOrLose(wrongGuess) {
+    if(wrongGuess.length == 11) {
+        alert("You lose!");
+    }
+}
+
+/* function determineWinOrLose(buildWordOutput, guessesRemaining){
+    if (guessesRemaining == 0) {
+        alert("You Lose!")
+    }
+    for(i=0; i<buildWordOutput.length; i++) {
+        if(buildWordOutput.charAt(i) == "_") {
+            return     
+        } 
+    }
+    alert("You win!");
+} */
+
+
+
+/* console.log(determineWinOrLose("_ _ _ _ _ _", 1));
+console.log(determineWinOrLose("_ anana", 0));
+console.log(determineWinOrLose("bana_a", 1));
+console.log(determineWinOrLose("banana", 1));
+console.log(determineWinOrLose("_ _ _", 12));
+ */
 
 addKeyPressListener();
-updateCurrentWord();
-updateGuessedLetters();
-buildWordDisplay();
+determineWinOrLose(wrongGuess);
+/* determineWinOrLose(buildWordOutput, guessCounter); */
+/* determineWinOrLose */
 console.log(lettersGuessed);
 console.log(wrongGuess);
 
