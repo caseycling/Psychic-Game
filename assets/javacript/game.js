@@ -1,13 +1,3 @@
-//////// I STILL NEED TO: ///////
-//  *REMOVE THE GOD DAMN COMAS FOR LETTERS GUESSED BECAUSE JOINE METHOD DONT WORK!!! 
-//  *Make a counter for id="guessesLeft" that starts at 12 and decreases by 1 for every
-//   letter in wrongGuess[]
-//      *If guesses left reaches 0, generate a new chosenWord and start the guesses back to 12
-//  *Make a counter for id="winCounter" that starts at 0 and increases for every win
-//      *If all letters in currentWord are correctly guessed and the number of guesses left
-//      does NOT equal 0, display a picture of the correctly guessed artist, generate a new
-//      word, increase the win counter by one and reset the number of guesses remaining
-
 //Array with list of hip-hop artists
 var hipHopArtist = [
     "Notorious Big",
@@ -54,16 +44,15 @@ var wrongGuess = [];
 //Creat a variable to hold guesses remaining
 var guessCounter = 12; 
 
+//create a variable to keep track of number of wins
+var wins = 0;
+
 //create a function that checks the chosenWord with the eventKey (eventKey is defined as event.key when I define addKeyPressListener) 
 //If all indexes of chosenWord do not match eventKey, then add (or push) the eventKey to the wrongGuess array and decrease the counter by one
 
 function updateWrongGuessesAndCount(eventKey) {
-    if(containsChar(wrongGuess, eventKey)) {
-        guessCounter += 0;   
-        return;
-    }
-    if(!containsChar(chosenWord, eventKey) && containsChar(lettersGuessed, eventKey)) {
-        wrongGuess.push(eventKey + " ");
+    if(!containsChar(chosenWord, eventKey) && !containsChar(wrongGuess, eventKey)) {
+        wrongGuess.push(eventKey);
         guessCounter -= 1;
     }
 }
@@ -85,16 +74,17 @@ function determineWinOrLose() {
         alert("You lose!");
         lettersGuessed = [];
         wrongGuess = [];
-        guessCounter += 12;
+        guessCounter = 12;
         chosenWord = selection();
-        buildWordDisplay();
     } else if(!containsChar(buildWordOutput, "_" )) {
+        alert("winner");
         lettersGuessed = [];
         wrongGuess = [];
-        guessCounter += 12;
+        guessCounter = 12;
+        wins += 1;
         chosenWord = selection();
-        buildWordDisplay();
-        alert("winner");
+        
+        
     }
 }
 
@@ -146,22 +136,6 @@ function buildWordDisplay() {
 console.log(chosenWord);
 
 var buildWordOutput = buildWordDisplay();
-
-
-
-/* function determineWinOrLose(buildWordOutput, guessesRemaining){
-    if (guessesRemaining == 0) {
-        alert("You Lose!")
-    }
-    for(i=0; i<buildWordOutput.length; i++) {
-        if(buildWordOutput.charAt(i) == "_") {
-            return     
-        } 
-    }
-    alert("You win!");
-} */
-
-
 
 /* console.log(determineWinOrLose("_ _ _ _ _ _", 1));
 console.log(determineWinOrLose("_ anana", 0));
