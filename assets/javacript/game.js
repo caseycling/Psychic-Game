@@ -82,9 +82,7 @@ function determineWinOrLose() {
         wrongGuess = [];
         guessCounter = 12;
         wins += 1;
-        chosenWord = selection();
-        
-        
+        chosenWord = selection();        
     }
 }
 
