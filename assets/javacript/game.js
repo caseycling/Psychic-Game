@@ -63,19 +63,20 @@ function updateScreen() {
     buildWordOutput = buildWordDisplay(lettersGuessed, chosenWord);
     document.getElementById("currentWord").innerHTML = buildWordOutput;
     document.getElementById("guessesLeft").innerHTML = guessCounter;
-    var guessInput = wrongGuess.toString();
+    var guessInput = wrongGuess.join(' ');
     var guessInputCapital = guessInput.toUpperCase();
     document.getElementById("guessSpace").innerHTML = guessInputCapital;
-};
+    document.getElementById("winCounter").innerHTML = wins;
+}
 
 //This function checks if you have zero guesses left and alerts the user "You lose" if guesses are zero, resets the letters guessed
 function determineWinOrLose() {
     if(guessCounter == 0) {
-        alert("You lose!");
         lettersGuessed = [];
         wrongGuess = [];
         guessCounter = 12;
         chosenWord = selection();
+        alert("You lose");
     } else if(!containsChar(buildWordOutput, "_" )) {
         alert("winner");
         lettersGuessed = [];
@@ -118,7 +119,7 @@ function containsChar(array, char) {
 //  Else, add an asterik mark for the respective letter and log the 
 
 function buildWordDisplay() {
-    var returnString = "";
+    var returnString = ""
     for(i=0; i<chosenWord.length; i++) { 
         if (chosenWord[i] == " ") {
             returnString += "  ";
